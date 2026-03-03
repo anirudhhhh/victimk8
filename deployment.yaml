@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: victim-app
+  annotations:
+    git/repo: "anirudhhhh/victimk8"
+    git/branch: "main"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: victim
+  template:
+    metadata:
+      labels:
+        app: victim
+    spec:
+      containers:
+      - name: victim-container
+        image: node:18-alpine
+        command: ["node", "-e", "require('./index.js')"]
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
