@@ -2,16 +2,20 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send('Victim App is running...');
+    // REAL BUG: referencing nonExistentVariable will cause a crash when this route is hit
+    console.log(nonExistentVariable);
+    res.send('Buggy App');
 });
 
-// CRASH LOGIC: The app will crash 10 seconds after starting
-console.log('App started. Crashing in 10 seconds...');
+// Trigger the bug automatically on startup for testing
 setTimeout(() => {
-    console.error('CRITICAL ERROR: Simulated Application Failure!');
-    process.exit(1);
-}, 10000);
+    console.log('Hitting buggy code...');
+    try {
+        console.log(nonExistentVariable);
+    } catch (e) {
+        console.error('CRASH: ' + e.message);
+        process.exit(1);
+    }
+}, 5000);
 
-app.listen(3000, () => {
-    console.log('Victim app listening on port 3000');
-});
+app.listen(3000, () => console.log('Victim running on 3000'));
