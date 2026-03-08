@@ -2,9 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: victim-app
-  annotations:
-    git/repo: "anirudhhhh/victimk8"
-    git/branch: "main"
 spec:
   replicas: 1
   selector:
@@ -14,14 +11,22 @@ spec:
     metadata:
       labels:
         app: victim
+      annotations:
+        repo-url: "https://github.com/anirudhhhh/victimk8"
+        git/branch: "main"
     spec:
       containers:
-      - name: victim-container
-        image: node:18-alpine
-        command: ["node", "-e", "require('./index.js')"]
-        ports:
-        - containerPort: 3000
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+        - name: victim-container
+          image: node:18-alpine
+          command:
+            [
+              "node",
+              "-e",
+              "const express = require('express'); const app = express(); app.get('/', (r, s) => s.send('Victim App Running')); console.log('Crashing in 10s...'); setTimeout(() => { console.error('Simulated Failure'); process.exit(1); }, 10000); app.listen(3000);",
+            ]
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
