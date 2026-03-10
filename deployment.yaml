@@ -25,5 +25,5 @@ spec:
               memory: "32Mi"
               cpu: "100m"
             limits:
-              memory: "64Mi" # BUG 3: too low — memory leak hits this in ~6 seconds
+              memory: "10Mi" # BUG 3: too low — memory leak hits this in ~6 seconds
               cpu: "500m"
