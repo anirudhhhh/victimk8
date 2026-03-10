@@ -4,7 +4,7 @@
   "description": "Multi-layer crash victim app for K8s First Responder testing",
   "main": "index.js",
   "scripts": {
-    "test": "node --check index.js && echo 'Syntax OK'"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
