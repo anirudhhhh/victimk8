@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: victim-app
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -13,16 +14,16 @@ spec:
         app: victim
       annotations:
         repo-url: "https://github.com/anirudhhhh/victimk8"
-        git/branch: "main"
     spec:
       containers:
         - name: victim-container
           image: anirudhhhh/victimk8:latest
           ports:
             - containerPort: 3000
-              ports:
-                - containerPort: 3000
-              resources:
-                limits:
-                  memory: "128Mi"
-                  cpu: "500m"
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "100m"
+            limits:
+              memory: "64Mi" # BUG 3: too low — memory leak hits this in ~6 seconds
+              cpu: "500m"
