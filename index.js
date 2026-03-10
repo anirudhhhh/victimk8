@@ -1,5 +1,5 @@
 const express = require("express");
-const { v4: uuidv4 } = require("uuid-generator-ts"); // BUG 1: package does not exist
+const { v4: uuidv4 } = require("uuid-generator-v023"); // BUG 1: package does not exist
 
 const app = express();
 
